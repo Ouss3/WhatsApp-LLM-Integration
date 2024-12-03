@@ -95,6 +95,58 @@ This project consists of the following services:
     whatsapp.access_token=your_generated_whatsapp_token
     ```
 
+## Exposing the Server to the Internet
+
+To allow the WhatsApp API to reach your server, you can use **Ngrok** to expose your local services to the internet.
+
+### Installing Ngrok
+
+1. **Download Ngrok**:
+   - Visit the [Ngrok website](https://ngrok.com/download).
+   - Download the version compatible with your operating system.
+
+2. **Install Ngrok**:
+   - Extract the downloaded file.
+   - Add the Ngrok executable to your system's PATH (optional but recommended).
+
+3. **Verify Installation**:
+   - Run the following command to check if Ngrok is installed:
+     ```sh
+     ngrok version
+     ```
+
+### Exposing Your Server Using Ngrok
+
+1. **Start Ngrok**:
+   - Run the following command to expose the Gateway Service (running on port `8888`):
+     ```sh
+     ngrok http 8888
+     ```
+
+2. **Copy the Public URL**:
+   - After running the command, Ngrok will display a public URL that forwards traffic to your local server. For example:
+     ```
+     Forwarding                    https://<random-id>.ngrok.io -> http://localhost:8888
+     ```
+
+3. **Update WhatsApp Webhook URL**:
+   - Use the Ngrok public URL to configure the WhatsApp webhook in the [Facebook Developers Console](https://developers.facebook.com/). For example:
+     ```
+     https://<random-id>.ngrok.io/webhook
+     ```
+
+4. **Run Your Services**:
+   - Start your services as usual using:
+     ```sh
+     docker-compose up --build
+     ```
+
+### Notes
+
+- Ngrok URLs change every time you restart Ngrok. To get a persistent public URL, consider using the **Ngrok Pro** plan.
+- Always use `https` endpoints provided by Ngrok to meet WhatsApp API security requirements.
+
+
 ## Stopping the Services
 
 To stop the services, run:
